@@ -99,6 +99,12 @@ codegraph context --function "processPayment"
 
 # List all API endpoints
 codegraph list --type http-endpoint
+
+# Watch for changes in real-time
+codegraph watch
+
+# See what changed since last commit
+codegraph diff
 ```
 
 ## How It Works
@@ -188,6 +194,7 @@ Before modifying any function that might be shared or critical:
 | `codegraph_context` | To understand a function's role |
 | `codegraph_list` | To see endpoints, functions by type/file |
 | `codegraph_analyze` | After adding new files or refactoring |
+| `codegraph_changes` | To see what changed since last commit |
 | `codegraph_info` | To see graph statistics |
 | `codegraph_update` | To check for and install updates |
 
@@ -303,6 +310,21 @@ Initialize CodeGraph in a project (creates Cursor rules and runs analysis).
 
 ---
 
+### `codegraph_changes`
+
+Show architecture changes since a git commit. Compares current graph against the version in git history.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `graphFile` | string | Yes | Absolute path to `.codegraph.json` |
+| `since` | string | No | Git ref: `HEAD` (default), `HEAD~1`, `HEAD~5`, `main`, branch name, or commit hash |
+
+**Example:** "What functions have changed since last commit?"
+
+**Example:** "Show me architecture changes in the last 5 commits"
+
+---
+
 ### `codegraph_status`
 
 Show diagnostic information about the CodeGraph installation.
@@ -320,6 +342,43 @@ Check for and install CodeGraph updates.
 | `checkOnly` | boolean | No | Only check, don't install |
 
 **Example:** "Update CodeGraph to the latest version"
+
+## Real-time Updates
+
+### Watch Mode
+
+Monitor your codebase for changes and keep the graph updated in real-time:
+
+```bash
+codegraph watch
+```
+
+Features:
+- Incrementally updates graph as files change
+- Shows what was added/removed/modified
+- Compares against last git commit
+- Debounced writes to avoid thrashing
+
+Options:
+```bash
+codegraph watch -p ./src      # Watch specific path
+codegraph watch --no-git      # Disable git comparison
+codegraph watch --debounce 2000  # 2 second debounce
+```
+
+### Diff Against Git
+
+Compare current architecture against any point in git history:
+
+```bash
+codegraph diff              # Compare against HEAD (last commit)
+codegraph diff HEAD~1       # Compare against 1 commit ago
+codegraph diff HEAD~5       # Compare against 5 commits ago
+codegraph diff main         # Compare against main branch
+codegraph diff abc1234      # Compare against specific commit
+```
+
+**Tip:** Commit `.codegraph.json` to git so you have a baseline to compare against.
 
 ## Supported Languages
 
