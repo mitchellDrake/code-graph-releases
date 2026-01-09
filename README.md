@@ -340,8 +340,11 @@ Check for and install CodeGraph updates.
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `checkOnly` | boolean | No | Only check, don't install |
+| `force` | boolean | No | Force reinstall even if already on latest version |
 
 **Example:** "Update CodeGraph to the latest version"
+
+**Example:** "Force reinstall CodeGraph"
 
 ## Real-time Updates
 
@@ -398,9 +401,12 @@ codegraph update --check
 
 # Update to latest version
 codegraph update
+
+# Force reinstall (even if already on latest)
+codegraph update --force
 ```
 
-Or reinstall:
+Or reinstall via script:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/mitchellDrake/code-graph-releases/main/install.sh | bash
 ```
