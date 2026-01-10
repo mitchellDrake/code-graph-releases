@@ -146,6 +146,13 @@ CodeGraph includes intelligent call graph detection:
 - Follows `from .module import x` re-exports in Python `__init__.py` files
 - Ensures accurate impact analysis even through barrel files
 
+**Singleton Instance Resolution:**
+- Tracks module-level singleton patterns like `const service = new ServiceClass()` (TS) or `service = ServiceClass()` (Python)
+- Resolves `service.method()` calls to `ServiceClass.method`
+- Works across files when singletons are imported
+- Supports factory patterns like `ServiceClass.create()` and `ServiceClass.getInstance()`
+- Common pattern in both TypeScript and Python service-oriented architectures
+
 ### 2. Impact Analysis
 
 For every function, CodeGraph computes an **impact score** based on:
@@ -401,8 +408,8 @@ codegraph diff abc1234      # Compare against specific commit
 
 | Language | Status | Detection |
 |----------|--------|-----------|
-| TypeScript/JavaScript | ✅ Full | Functions, classes, imports, Express routes, Kafka, `this.method()` calls, index.ts re-exports |
-| Python | ✅ Full | Functions, classes, decorators, FastAPI/Flask routes, `self`/`cls` method calls, `__init__.py` re-exports |
+| TypeScript/JavaScript | ✅ Full | Functions, classes, imports, Express routes, Kafka, `this.method()` calls, index.ts re-exports, singleton instance calls |
+| Python | ✅ Full | Functions, classes, decorators, FastAPI/Flask routes, `self`/`cls` method calls, `__init__.py` re-exports, singleton instance calls |
 | Go | ✅ Basic | Functions, structs, methods |
 | Rust | ✅ Basic | Functions, structs, impl blocks |
 | C | ✅ Basic | Functions |
