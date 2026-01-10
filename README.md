@@ -132,6 +132,20 @@ It also traces relationships:
 | `extends` | Class extends another Class |
 | `implements` | Class implements Interface |
 
+### Advanced Call Detection
+
+CodeGraph includes intelligent call graph detection:
+
+**Class Method Resolution:**
+- `this.method()` in TypeScript/JavaScript → Resolves to `ClassName.method`
+- `self.method()` in Python → Resolves to `ClassName.method`
+- `cls.method()` in Python class methods → Resolves to `ClassName.method`
+
+**Re-export Resolution:**
+- Follows `export { x } from './module'` chains in TypeScript index files
+- Follows `from .module import x` re-exports in Python `__init__.py` files
+- Ensures accurate impact analysis even through barrel files
+
 ### 2. Impact Analysis
 
 For every function, CodeGraph computes an **impact score** based on:
@@ -387,8 +401,8 @@ codegraph diff abc1234      # Compare against specific commit
 
 | Language | Status | Detection |
 |----------|--------|-----------|
-| TypeScript/JavaScript | ✅ Full | Functions, classes, imports, Express routes, Kafka |
-| Python | ✅ Full | Functions, classes, decorators, FastAPI/Flask routes |
+| TypeScript/JavaScript | ✅ Full | Functions, classes, imports, Express routes, Kafka, `this.method()` calls, index.ts re-exports |
+| Python | ✅ Full | Functions, classes, decorators, FastAPI/Flask routes, `self`/`cls` method calls, `__init__.py` re-exports |
 | Go | ✅ Basic | Functions, structs, methods |
 | Rust | ✅ Basic | Functions, structs, impl blocks |
 | C | ✅ Basic | Functions |
