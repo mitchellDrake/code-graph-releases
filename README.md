@@ -118,7 +118,7 @@ CodeGraph parses your codebase and extracts:
 | `function` | Functions, methods, arrow functions |
 | `class` | Class definitions |
 | `module` | File-level modules |
-| `http-endpoint` | REST API routes (GET /users, POST /orders) |
+| `http-endpoint` | REST API routes (Express, Next.js App Router, FastAPI, Flask) |
 | `kafka-consumer` | Message queue consumers |
 | `kafka-producer` | Message queue producers |
 
@@ -152,6 +152,14 @@ CodeGraph includes intelligent call graph detection:
 - Works across files when singletons are imported
 - Supports factory patterns like `ServiceClass.create()` and `ServiceClass.getInstance()`
 - Common pattern in both TypeScript and Python service-oriented architectures
+
+**Next.js App Router Detection:**
+- Automatically detects Next.js 13+ App Router HTTP endpoints from `route.ts`/`route.js` files
+- Derives HTTP path from file structure: `app/api/users/[id]/route.ts` → `GET /api/users/[id]`
+- Supports dynamic route segments (e.g., `[id]`, `[slug]`)
+- Recognizes all HTTP methods: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `HEAD`, `OPTIONS`
+- Works with both `app/` and `src/app/` directory structures
+- Links route handlers to the functions they call for complete flow analysis
 
 ### 2. Impact Analysis
 
@@ -408,7 +416,7 @@ codegraph diff abc1234      # Compare against specific commit
 
 | Language | Status | Detection |
 |----------|--------|-----------|
-| TypeScript/JavaScript | ✅ Full | Functions, classes, imports, Express routes, Kafka, `this.method()` calls, index.ts re-exports, singleton instance calls |
+| TypeScript/JavaScript | ✅ Full | Functions, classes, imports, Express routes, **Next.js App Router**, Kafka, `this.method()` calls, index.ts re-exports, singleton instance calls |
 | Python | ✅ Full | Functions, classes, decorators, FastAPI/Flask routes, `self`/`cls` method calls, `__init__.py` re-exports, singleton instance calls |
 | Go | ✅ Basic | Functions, structs, methods |
 | Rust | ✅ Basic | Functions, structs, impl blocks |
