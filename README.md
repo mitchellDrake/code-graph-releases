@@ -118,9 +118,16 @@ CodeGraph parses your codebase and extracts:
 | `function` | Functions, methods, arrow functions |
 | `class` | Class definitions |
 | `module` | File-level modules |
-| `http-endpoint` | REST API routes (Express, Next.js App Router, FastAPI, Flask) |
-| `kafka-consumer` | Message queue consumers |
-| `kafka-producer` | Message queue producers |
+| `http-endpoint` | REST API routes (Express, Next.js App Router, FastAPI, Flask, API Gateway) |
+| `kafka-consumer` | Message queue consumers (Kafka, SQS) |
+| `kafka-producer` | Message queue producers (Kafka, SNS) |
+| `serverless-function` | AWS Lambda, Google Cloud Functions, Azure Functions |
+| `terraform-resource` | Terraform infrastructure resources |
+| `terraform-module` | Terraform modules |
+| `terraform-variable` | Terraform input variables |
+| `terraform-output` | Terraform output values |
+| `terraform-data` | Terraform data sources |
+| `database-query` | Database resources (RDS, DynamoDB, etc.) |
 
 It also traces relationships:
 
@@ -131,6 +138,8 @@ It also traces relationships:
 | `exposes` | Module exposes Function |
 | `extends` | Class extends another Class |
 | `implements` | Class implements Interface |
+| `references` | Terraform resource A references resource B |
+| `depends-on` | Terraform explicit depends_on relationship |
 
 ### Advanced Call Detection
 
@@ -421,6 +430,7 @@ codegraph diff abc1234      # Compare against specific commit
 | Go | ✅ Basic | Functions, structs, methods |
 | Rust | ✅ Basic | Functions, structs, impl blocks |
 | C | ✅ Basic | Functions |
+| Terraform | ✅ Full | Resources, modules, variables, outputs, data sources, providers, locals, cross-resource references, cloud service semantic mapping (AWS/GCP/Azure) |
 
 ## Updating
 
