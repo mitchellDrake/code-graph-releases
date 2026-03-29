@@ -105,6 +105,9 @@ codegraph watch
 
 # See what changed since last commit
 codegraph diff
+
+# Push graph to API (CI/CD - requires CODEGRAPH_API_URL and CODEGRAPH_API_KEY)
+codegraph push
 ```
 
 ## How It Works
